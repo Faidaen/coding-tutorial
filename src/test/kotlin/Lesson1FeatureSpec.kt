@@ -13,6 +13,10 @@ class BasicsFeatureSpec : FeatureSpec({
             sum1(0, 3) shouldBe 3
             sum1(-1, 1) shouldBe 0
             // Add greater less checks
+            sum2(a, b) shouldBe 3
+            sum2(a, b) shouldBeLessThan 4
+            sum2(0, 3) shouldBe 3
+            sum2(-1, 1) shouldBe 0
         }
     }
 
@@ -56,7 +60,7 @@ class BasicsFeatureSpec : FeatureSpec({
             maxOf(min, max) shouldBe max
         }
 
-        scenario("") {
+        scenario("min of") {
             minOf(1, 2)
         }
     }
@@ -66,6 +70,9 @@ class BasicsFeatureSpec : FeatureSpec({
     feature("when expression") {
         describe(1) shouldBe "One"
         describe("hello") shouldBe "Unknown"
+        describe("Hello") shouldBe "Greeting"
+        describe(10L) shouldBe "Long"
+        describe(2) shouldBe "Not a string"
         // Add other checks
     }
 
@@ -89,9 +96,14 @@ fun sum2(a: Int, b: Int) = a + b
 
 fun maxOf(a: Int, b: Int) = if (a > b) a else b
 
-fun minOf(a: Double, b: Double): Any {
+fun minOf(a: Int, b: Int): Int {
     if (a < b) return a
-    return Unit
+    else return b
+}
+
+fun minOf(list: ArrayList<Int>): Int? {
+    val min = list.min()
+    return min
 }
 
 fun describe(obj: Any): String =
