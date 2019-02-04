@@ -2,6 +2,7 @@ import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.matchers.numerics.shouldBeLessThan
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.FeatureSpec
+import java.util.*
 
 class BasicsFeatureSpec : FeatureSpec({
     feature("functions") {
@@ -55,13 +56,14 @@ class BasicsFeatureSpec : FeatureSpec({
     feature("conditional expressions") {
         val max = 100
         val min = 0
-
+        val numbers = arrayListOf<Int>(4, 5, 6, 7, -400)
         scenario("returns max") {
             maxOf(min, max) shouldBe max
         }
 
         scenario("min of") {
             minOf(1, 2)
+            minOf(numbers)
         }
     }
 
@@ -77,13 +79,15 @@ class BasicsFeatureSpec : FeatureSpec({
     }
 
     feature("collections") {
-        val fruits = arrayListOf("Apple", "Orange", "Grapes", "Cherry")
+        val fruits = arrayListOf("Apple", "Orange", "Grapes", "Cherry", "Apple", "Orange", "Orange")
 
         scenario("") {
-            fruits.count() shouldBe 4
+            fruits.count() shouldBe 7
             fruits shouldContain "Apple"
 
-            count(fruits) shouldBe 4
+            count(fruits) shouldBe 7
+            countInstances(fruits).get("Apple") shouldBe 2
+            countInstances(fruits).get("Orange") shouldBe 3
         }
     }
 })
@@ -104,6 +108,20 @@ fun minOf(a: Int, b: Int): Int {
 fun minOf(list: ArrayList<Int>): Int? {
     val min = list.min()
     return min
+}
+
+fun countInstances(list: List<String>): Map<String, Int> {
+    val map = mutableMapOf<String, Int>()
+    for (fruit in list) {
+        val oldValue = map[fruit]
+        if (oldValue != null) {
+            map[fruit] = oldValue + 1
+        }
+        else {
+            map[fruit] = 1
+        }
+    }
+    return map
 }
 
 fun describe(obj: Any): String =
