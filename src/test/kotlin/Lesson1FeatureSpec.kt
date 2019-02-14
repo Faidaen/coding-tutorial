@@ -6,9 +6,9 @@ import java.util.*
 
 class BasicsFeatureSpec : FeatureSpec({
     feature("functions") {
+        val a = 1
+        val b = 2
         scenario("sum1 and sum2 works the same") {
-            val a = 1
-            val b = 2
             sum1(a, b) shouldBe 3
             sum1(a, b) shouldBeLessThan 4
             sum1(0, 3) shouldBe 3
@@ -63,7 +63,11 @@ class BasicsFeatureSpec : FeatureSpec({
 
         scenario("min of") {
             minOf(1, 2)
-            minOf(numbers)
+            minOf(numbers) shouldBe -400
+            minOf(4,5,6,7,-5,-27,56,245,-569,-4687) shouldBe -4687
+            minOf(5,5,5,5,5,5) shouldBe 5
+            minOf(1) shouldBe 1
+            minOf() shouldBe 0
         }
     }
 
@@ -139,4 +143,20 @@ fun count(list: ArrayList<String>): Int {
         counter += 1
     }
     return counter
+}
+
+fun minOf(vararg list: Int): Int {
+    try {
+        var min = list[0]
+        for (number in list){
+            if (number < min) {
+                min = number
+            }
+        }
+        return min
+    } catch (e : ArrayIndexOutOfBoundsException) {
+        println("You haven't entered any value")
+        print("Let's guess your minimum is 0" + ", then")
+        return 0
+    }
 }
